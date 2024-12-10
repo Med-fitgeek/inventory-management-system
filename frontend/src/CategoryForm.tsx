@@ -1,5 +1,4 @@
-import { Field, Form, Formik, useFormik } from "formik";
-import { Product } from "./types";
+import { Field,  Formik,  } from "formik";
 import {
     FormControl,
     FormLabel,
@@ -27,7 +26,7 @@ export function CategoryForm(props: {onClose: () => void}) {
                         name: '',
                     }}
                     onSubmit={async (values) => {
-                        await axios.post(`${ 'http://backend:8000/api/v1'}/categories`, 
+                        await axios.post(`${ 'http://localhost:8000/api/v1'}/categories`, 
                         {
                             name: values.name
                         })

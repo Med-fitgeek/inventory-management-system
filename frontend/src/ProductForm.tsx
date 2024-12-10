@@ -1,4 +1,4 @@
-import { Field, FieldProps, Form, Formik, useFormik } from "formik";
+import { Field, Formik, } from "formik";
 import { Category, Product } from "./types";
 import {
     FormControl,
@@ -22,7 +22,7 @@ export function ProductForm(props: {onClose: () => void, refresh: () => void, da
     const [categories, setCategories] = useState<Category[]>()
 
     const getData = async () => 
-        await axios.get(`${'http://backend:8000/api/v1'}/categories`)
+        await axios.get(`${'http://localhost:8000/api/v1'}/categories`)
             .then(response =>setCategories(response.data))
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export function ProductForm(props: {onClose: () => void, refresh: () => void, da
             price: props.data?.price || '',
         }}
         onSubmit={async (values) => {
-            props.data ? await axios.put(`${'http://backend:8000/api/v1'}/products/${props.data.id}`, 
+            props.data ? await axios.put(`${'http://localhost:8000/api/v1'}/products/${props.data.id}`, 
             {
                 name: values.name,
                 description: values.description,
@@ -70,7 +70,7 @@ export function ProductForm(props: {onClose: () => void, refresh: () => void, da
                     isClosable: true,
                   })
             })
-            : await axios.post(`${'http://backend:8000/api/v1'}/products`, 
+            : await axios.post(`${'http://localhost:8000/api/v1'}/products`, 
             {
                 name: values.name,
                 description: values.description,
@@ -165,7 +165,7 @@ export function ProductForm(props: {onClose: () => void, refresh: () => void, da
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Category</FormLabel>
-                {categories != undefined && categories.length === 0 ? 
+                {categories !== undefined && categories.length === 0 ? 
                     <Select placeholder={'No categories available. Create new category first.'} isDisabled></Select> :
                     <Select placeholder={'Select category'}
                         onChange={(event)=>{setFieldValue('category_id', event?.target?.value)}}

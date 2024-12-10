@@ -31,12 +31,11 @@ import {
   TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
-import { useState, useEffect, useRef, ChangeEvent} from "react"
+import { useState, useEffect, useRef} from "react"
 import { Category, Product } from "./types"
 import { EditIcon, DeleteIcon, AddIcon, SearchIcon, CloseIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import { ProductForm } from './ProductForm';
 import { CategoryForm } from './CategoryForm';
-import { FaCross } from 'react-icons/fa';
 
 export const App = () => {
   const [data, setData] = useState([])
@@ -55,12 +54,12 @@ export const App = () => {
   const [categories, setCategories] = useState<Category[]>()
 
   const getCategories = async () => 
-      await axios.get(`${'http://backend:8000/api/v1'}/categories`)
+      await axios.get(`${'http://localhost:8000/api/v1'}/categories`)
           .then(response =>setCategories(response.data))
 
   const getData = async (category?: string) => 
     category ?
-    await axios.get(`${ 'http://backend:8000/api/v1'}/products?page=${page}&size=${size}&category_id=${category}`)
+    await axios.get(`${ 'http://localhost:8000/api/v1'}/products?page=${page}&size=${size}&category_id=${category}`)
     .then(response => {
       setData(response.data.items)
       setPage(response.data.page)
@@ -68,7 +67,7 @@ export const App = () => {
       setPages(response.data.pages)
       setSize(response.data.size)
     }) :
-    await axios.get(`${ 'http://backend:8000/api/v1'}/products?page=${page}&size=${size}`)
+    await axios.get(`${ 'http://localhost:8000/api/v1'}/products?page=${page}&size=${size}`)
     .then(response =>{
       setData(response.data.items)
       setPage(response.data.page)
@@ -79,6 +78,7 @@ export const App = () => {
 
   useEffect(() => {
     getData()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export const App = () => {
   }, [])
 
   const onDelete = async () => {
-    await axios.delete(`${ 'http://backend:8000/api/v1'}/products/${current?.id}`)
+    await axios.delete(`${ 'http://localhost:8000/api/v1'}/products/${current?.id}`)
     .then(response => 
       {
         if (response.status === 204){
